@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track the pinned Bobbin source commit on Tangled core master",
+      "managerFilePatterns": ["/(^|/)Dockerfile$/"],
+      "matchStrings": ["ARG BOBBIN_REF=(?<currentDigest>[a-f0-9]{40})"],
+      "currentValueTemplate": "master",
+      "depNameTemplate": "tangled-core",
+      "packageNameTemplate": "https://tangled.org/tangled.org/core",
+      "datasourceTemplate": "git-refs"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Automerge dependency updates after the required Build check passes",
+      "matchManagers": ["dockerfile", "github-actions", "custom.regex"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "matchDepNames": ["tangled-core"],
+      "commitMessageTopic": "bobbin source",
+      "commitMessageExtra": "to {{{newDigestShort}}}"
+    }
+  ]
+}
