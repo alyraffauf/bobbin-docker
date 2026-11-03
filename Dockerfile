@@ -6,7 +6,7 @@ ARG RUNTIME_IMAGE=gcr.io/distroless/cc-debian12:nonroot@sha256:9dac0a79194e45a7d
 FROM ${RUST_IMAGE} AS build
 
 ARG BOBBIN_REPO=https://tangled.org/tangled.org/core
-ARG BOBBIN_REF=db870eb4d9e6bf6f6a42e66532bc18e47064641a
+ARG BOBBIN_REF=02d9ff54fcdb96ae5665feb794aa14ba24302a79
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends cmake \
